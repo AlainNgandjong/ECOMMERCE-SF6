@@ -3,26 +3,42 @@
 {% block title %}Register{% endblock %}
 
 {% block body %}
-    <h1>Register</h1>
+    <main class="my-4 h-100">
+        <div clas="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-5 col-md-6">
+                    <div class="card shadow">
+                         <div class="card-header">
+                            <h2 class="text-center">Register</h1>
+                        </div>
+                        <div class="card-body">
+                            {{ form_start(registrationForm) }}
+                                <fieldset class="mb-3">
+                                    <legend> Identity </legend>
+                                    <div class="my-2">{{ form_row(registrationForm.firstname) }}</div>
+                                    <div class="my-2">{{ form_row(registrationForm.lastname) }}</div>
+                                    <div class="my-2">{{ form_row(registrationForm.email) }}</div>
+                                    
+                                    
+                                    
+                                </fieldset>
+                                <hr>
+                                <fieldset class="mb-3">
+                                    <legend> Contact details </legend>
+                                    <div class="my-2">{{ form_row(registrationForm.address) }}</div>
+                                    <div class="my-2">{{ form_row(registrationForm.zipcode) }}</div>
+                                    <div class="my-2">{{ form_row(registrationForm.city) }}</div>
+                                </fieldset>
+                                <div class="my-2"> {{ form_row(registrationForm.plainPassword) }}</div>
 
-    {{ form_start(registrationForm) }}
-        <fieldset class="mb-3">
-            <legend> Identity </legend>
-            {{ form_row(registrationForm.firstname) }}
-            {{ form_row(registrationForm.lastname) }}
-            {{ form_row(registrationForm.email) }}
-        </fieldset>
-        <fieldset class="mb-3">
-            <legend> Coordonates </legend>
-            {{ form_row(registrationForm.address) }}
-            {{ form_row(registrationForm.zipcode) }}
-            {{ form_row(registrationForm.city) }}
-        </fieldset>
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
-        {{ form_row(registrationForm.agreeTerms) }}
-
-        <button type="submit" class="btn btn-primary my-3">Register</button>
-    {{ form_end(registrationForm) }}
+                                <div class="my-2">{{ form_row(registrationForm.agreeTerms) }}</div>
+                                <button type="submit" class="btn btn-primary my-3">Register</button>
+                            {{ form_end(registrationForm) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
 {% endblock %}
