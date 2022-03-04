@@ -2,7 +2,9 @@
 
 namespace App\Entity;
 
+use DateTimeImmutable;
 use App\Repository\CouponRepository;
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -14,9 +16,6 @@ class Coupon
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
     private $id;
-
-    #[ORM\Column(type: 'string', length: 50)]
-    private $name;
 
     #[ORM\Column(type: 'string', length: 10, unique: true)]
     private $code;
@@ -49,6 +48,7 @@ class Coupon
     public function __construct()
     {
         $this->orders = new ArrayCollection();
+        $this->created_at = new DateTimeImmutable;
     }
 
     public function getId(): ?int
@@ -104,12 +104,12 @@ class Coupon
         return $this;
     }
 
-    public function getValidity(): ?\DateTimeInterface
+    public function getValidity(): ?DateTimeInterface
     {
         return $this->validity;
     }
 
-    public function setValidity(\DateTimeInterface $validity): self
+    public function setValidity(DateTimeInterface $validity): self
     {
         $this->validity = $validity;
 
@@ -128,12 +128,12 @@ class Coupon
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeImmutable
+    public function getCreatedAt(): ?DateTimeImmutable
     {
         return $this->created_at;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $created_at): self
+    public function setCreatedAt(DateTimeImmutable $created_at): self
     {
         $this->created_at = $created_at;
 
