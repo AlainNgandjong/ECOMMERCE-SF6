@@ -2,11 +2,13 @@
 
 namespace App\Entity;
 
-use DateTimeImmutable;
+use App\Entity\Trait\TimerTrait;
 use App\Repository\UserRepository;
+use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use JetBrains\PhpStorm\Pure;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -15,6 +17,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
+    use TimerTrait;
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -22,34 +25,32 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $id;
 
     #[ORM\Column(type: 'string', length: 180, unique: true)]
-    private $email;
+    private ?string $email;
 
     #[ORM\Column(type: 'json')]
-    private $roles = [];
+    private array $roles = [];
 
     #[ORM\Column(type: 'string')]
-    private $password;
+    private string $password;
 
     #[ORM\Column(type: 'string', length: 100)]
-    private $lastname;
+    private ?string $lastname;
 
     #[ORM\Column(type: 'string', length: 100)]
-    private $firstname;
+    private ?string $firstname;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private $address;
+    private ?string $address;
 
     #[ORM\Column(type: 'string', length: 5)]
-    private $zipcode;
+    private ?string $zipcode;
 
     #[ORM\Column(type: 'string', length: 150)]
-    private $city;
+    private ?string $city;
 
-    #[ORM\Column(type: 'datetime_immutable', options: ['default' => 'CURRENT_TIMESTAMP'])]
-    private $created_at;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Order::class)]
-    private $orders;
+    private ArrayCollection $orders;
 
     public function __construct()
     {
@@ -183,18 +184,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setCity(string $city): self
     {
         $this->city = $city;
-
-        return $this;
-    }
-
-    public function getCreatedAt(): ?DateTimeImmutable
-    {
-        return $this->created_at;
-    }
-
-    public function setCreatedAt(DateTimeImmutable $created_at): self
-    {
-        $this->created_at = $created_at;
 
         return $this;
     }

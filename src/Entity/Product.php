@@ -2,50 +2,52 @@
 
 namespace App\Entity;
 
-use DateTimeImmutable;
+use App\Entity\Trait\TimerTrait;
 use App\Repository\ProductRepository;
+use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use JetBrains\PhpStorm\Pure;
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 class Product
 {
+    use TimerTrait;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
     private $id;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private $name;
+    private ?string $name;
 
     #[ORM\Column(type: 'text')]
-    private $description;
+    private ?string $description;
 
     #[ORM\Column(type: 'integer')]
-    private $price;
+    private ?int $price;
 
     #[ORM\Column(type: 'integer')]
-    private $stock;
-
-    #[ORM\Column(type: 'datetime_immutable', options: ['default' => 'CURRENT_TIMESTAMP'])]
-    private $created_at;
+    private ?int $stock;
 
     #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'products')]
     #[ORM\JoinColumn(nullable: false)]
-    private $category;
+    private ?Category $category;
 
     #[ORM\OneToMany(mappedBy: 'product', targetEntity: Image::class, orphanRemoval: true)]
-    private $images;
+    private ArrayCollection $images;
 
     #[ORM\OneToMany(mappedBy: 'product', targetEntity: OrderDetail::class)]
-    private $orderDetails;
+    private ArrayCollection $orderDetails;
 
     public function __construct()
     {
         $this->images = new ArrayCollection();
         $this->orderDetails = new ArrayCollection();
         $this->created_at = new DateTimeImmutable();
+
     }
 
     public function getId(): ?int
@@ -97,18 +99,6 @@ class Product
     public function setStock(int $stock): self
     {
         $this->stock = $stock;
-
-        return $this;
-    }
-
-    public function getCreatedAt(): ?DateTimeImmutable
-    {
-        return $this->created_at;
-    }
-
-    public function setCreatedAt(DateTimeImmutable $created_at): self
-    {
-        $this->created_at = $created_at;
 
         return $this;
     }

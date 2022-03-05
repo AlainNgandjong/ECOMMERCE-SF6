@@ -2,53 +2,55 @@
 
 namespace App\Entity;
 
-use DateTimeImmutable;
+use App\Entity\Trait\TimerTrait;
 use App\Repository\CouponRepository;
+use DateTimeImmutable;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use JetBrains\PhpStorm\Pure;
 
 #[ORM\Entity(repositoryClass: CouponRepository::class)]
 class Coupon
 {
+    use TimerTrait;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
     private $id;
 
     #[ORM\Column(type: 'string', length: 10, unique: true)]
-    private $code;
+    private ?string $code;
 
     #[ORM\Column(type: 'text')]
-    private $description;
+    private ?string $description;
 
     #[ORM\Column(type: 'integer')]
-    private $discount;
+    private ?int $discount;
 
     #[ORM\Column(type: 'integer')]
-    private $max_usage;
+    private ?int $max_usage;
 
     #[ORM\Column(type: 'datetime')]
-    private $validity;
+    private ?DateTimeInterface $validity;
 
     #[ORM\Column(type: 'boolean')]
-    private $is_valid;
+    private ?bool $is_valid;
 
-    #[ORM\Column(type: 'datetime_immutable', options: ['default' => 'CURRENT_TIMESTAMP'])]
-    private $created_at;
 
     #[ORM\ManyToOne(targetEntity: CouponType::class, inversedBy: 'coupons')]
     #[ORM\JoinColumn(nullable: false)]
-    private $coupon_type;
+    private ?CouponType $coupon_type;
 
     #[ORM\OneToMany(mappedBy: 'coupon', targetEntity: Order::class)]
-    private $orders;
+    private ArrayCollection $orders;
 
     public function __construct()
     {
         $this->orders = new ArrayCollection();
-        $this->created_at = new DateTimeImmutable;
+        $this->created_at = new DateTimeImmutable();
     }
 
     public function getId(): ?int
@@ -124,18 +126,6 @@ class Coupon
     public function setIsValid(bool $is_valid): self
     {
         $this->is_valid = $is_valid;
-
-        return $this;
-    }
-
-    public function getCreatedAt(): ?DateTimeImmutable
-    {
-        return $this->created_at;
-    }
-
-    public function setCreatedAt(DateTimeImmutable $created_at): self
-    {
-        $this->created_at = $created_at;
 
         return $this;
     }
