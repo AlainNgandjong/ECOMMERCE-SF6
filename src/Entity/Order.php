@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-use App\Entity\Trait\TimerTrait;
+use App\Entity\Trait\TimeStampTrait;
 use App\Repository\OrderRepository;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -14,7 +14,7 @@ use JetBrains\PhpStorm\Pure;
 #[ORM\Table(name: '`order`')]
 class Order
 {
-    use TimerTrait;
+    use TimeStampTrait;
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -32,12 +32,12 @@ class Order
     private ?User $user;
 
     #[ORM\OneToMany(mappedBy: 'orders', targetEntity: OrderDetail::class, orphanRemoval: true)]
-    private ArrayCollection $orderDetails;
+    private  $orderDetails;
 
     public function __construct()
     {
         $this->orderDetails = new ArrayCollection();
-        $this->created_at = new DateTimeImmutable();
+
     }
 
     public function getId(): ?int

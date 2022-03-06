@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-use App\Entity\Trait\TimerTrait;
+use App\Entity\Trait\TimeStampTrait;
 use App\Repository\CouponRepository;
 use DateTimeImmutable;
 use DateTimeInterface;
@@ -14,7 +14,7 @@ use JetBrains\PhpStorm\Pure;
 #[ORM\Entity(repositoryClass: CouponRepository::class)]
 class Coupon
 {
-    use TimerTrait;
+    use TimeStampTrait;
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -45,12 +45,11 @@ class Coupon
     private ?CouponType $coupon_type;
 
     #[ORM\OneToMany(mappedBy: 'coupon', targetEntity: Order::class)]
-    private ArrayCollection $orders;
+    private  $orders;
 
     public function __construct()
     {
         $this->orders = new ArrayCollection();
-        $this->created_at = new DateTimeImmutable();
     }
 
     public function getId(): ?int

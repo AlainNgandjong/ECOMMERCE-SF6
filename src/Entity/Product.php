@@ -2,18 +2,22 @@
 
 namespace App\Entity;
 
-use App\Entity\Trait\TimerTrait;
+use App\Entity\Trait\SlugTrait;
+use App\Entity\Trait\TimeStampTrait;
 use App\Repository\ProductRepository;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use JetBrains\PhpStorm\Pure;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
+#[UniqueEntity('slug')]
 class Product
 {
-    use TimerTrait;
+    use TimeStampTrait;
+    use SlugTrait;
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -37,16 +41,15 @@ class Product
     private ?Category $category;
 
     #[ORM\OneToMany(mappedBy: 'product', targetEntity: Image::class, orphanRemoval: true)]
-    private ArrayCollection $images;
+    private  $images;
 
     #[ORM\OneToMany(mappedBy: 'product', targetEntity: OrderDetail::class)]
-    private ArrayCollection $orderDetails;
+    private  $orderDetails;
 
     public function __construct()
     {
         $this->images = new ArrayCollection();
         $this->orderDetails = new ArrayCollection();
-        $this->created_at = new DateTimeImmutable();
 
     }
 
@@ -174,4 +177,10 @@ class Product
 
         return $this;
     }
+
+    public function __toString(): string
+    {
+        return $this->getName();
+    }
+
 }

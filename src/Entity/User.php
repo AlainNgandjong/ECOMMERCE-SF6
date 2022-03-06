@@ -2,22 +2,23 @@
 
 namespace App\Entity;
 
-use App\Entity\Trait\TimerTrait;
+
+use App\Entity\Trait\TimeStampTrait;
 use App\Repository\UserRepository;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use JetBrains\PhpStorm\Pure;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
+#[ORM\HasLifecycleCallbacks]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
-    use TimerTrait;
+    use TimeStampTrait;
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -50,12 +51,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Order::class)]
-    private ArrayCollection $orders;
+    private  $orders;
 
     public function __construct()
     {
         $this->orders = new ArrayCollection();
-        $this->created_at = new DateTimeImmutable();
     }
 
     public function getId(): ?int
@@ -217,4 +217,5 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
 }
