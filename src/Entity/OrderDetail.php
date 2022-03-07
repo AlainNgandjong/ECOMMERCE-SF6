@@ -10,20 +10,20 @@ class OrderDetail
 {
 
     #[ORM\Column(type: 'integer')]
-    private $quantity;
+    private ?int $quantity;
 
     #[ORM\Column(type: 'integer')]
-    private $price;
+    private ?int $price;
 
     #[ORM\Id]
     #[ORM\ManyToOne(targetEntity: Order::class, inversedBy: 'orderDetails')]
     #[ORM\JoinColumn(nullable: false)]
-    private $orders;
+    private ?Order $orders;
 
     #[ORM\Id]
     #[ORM\ManyToOne(targetEntity: Product::class, inversedBy: 'orderDetails')]
     #[ORM\JoinColumn(nullable: false)]
-    private $product;
+    private ?Product $product;
 
 
     public function getQuantity(): ?int

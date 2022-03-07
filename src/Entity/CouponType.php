@@ -16,7 +16,7 @@ class CouponType
     private $id;
 
     #[ORM\Column(type: 'string', length: 50)]
-    private $name;
+    private ?string $name;
 
     #[ORM\OneToMany(mappedBy: 'coupon_type', targetEntity: Coupon::class, orphanRemoval: true)]
     private $coupons;

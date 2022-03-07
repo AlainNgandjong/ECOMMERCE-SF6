@@ -16,10 +16,10 @@ class Category
     private $id;
 
     #[ORM\Column(type: 'string', length: 100)]
-    private $name;
+    private ?string $name;
 
     #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'categories')]
-    private $parent;
+    private ?Category $parent;
 
     #[ORM\OneToMany(mappedBy: 'parent', targetEntity: self::class)]
     private $categories;
