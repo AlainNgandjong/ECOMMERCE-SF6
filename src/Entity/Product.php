@@ -50,6 +50,8 @@ class Product
     {
         $this->images = new ArrayCollection();
         $this->orderDetails = new ArrayCollection();
+        $this->createdAt = new DateTimeImmutable();
+        $this->updatedAt = new DateTimeImmutable();
 
     }
 

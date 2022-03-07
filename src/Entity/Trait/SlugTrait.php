@@ -18,9 +18,9 @@ trait SlugTrait {
 
     public function setSlug(SluggerInterface $slugger, string $name)
     {
-        if(!$this->slug || '-' === $this->slug) {
-            $this->slug = (string) $slugger->slug((string) $name)->lower();
-        }
+//        if(!$this->slug || '-' === $this->slug) {
+            $this->slug = (string) $slugger->slug($name)->lower();
+//        }
     }
 
 }
