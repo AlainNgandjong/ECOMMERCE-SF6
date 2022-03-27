@@ -20,12 +20,12 @@ class ProductEntityListener
 
     public function prePersist(Product $product , LifecycleEventArgs $event)
     {
-        $product->setSlug($this->slugger, $product);
+        $product->computeSlug($this->slugger, $product);
     }
 
     public function preUpdate(Product $product , LifecycleEventArgs $event)
     {
-        $product->setSlug($this->slugger, $product);
+        $product->computeSlug($this->slugger, $product);
     }
 
 }

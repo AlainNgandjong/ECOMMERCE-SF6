@@ -1,0 +1,69 @@
+/*====================
+    PRICING
+====================*/
+
+.pricing-header {
+  font-size: 3.5em;
+  margin-top: 150px;
+  margin-bottom: 25px;
+  color: #6d665c;
+}
+
+.price-square {
+  border: 1px solid #efefee;
+  min-height: 379px;
+  margin-top:15px;
+  padding-left: 0;
+  padding-right: 0;
+  padding-bottom:10px;
+  background-color: #FFF;
+  border-radius: 5px;
+}
+
+.price-square-yearly {
+  margin-bottom: 20px;
+}
+
+.pricing-length-header {
+  font-size: 2em;
+  padding-top: 15px;
+  color: #fff;
+}
+
+.monthly {
+  background-color: #89729E;
+}
+
+.yearly {
+  background-color:#4DAF7C;
+}
+
+.alternative {
+  background-color: #BDC3C7;
+}
+
+.indv-text {
+  margin-top: 92px;
+}
+
+.pricing-info-padding {
+  padding-right: 40px;
+  padding-left: 40px;
+  margin-bottom: 30px;
+}
+
+.price {
+  font-size: 3em;
+  padding-top: 40px;
+  padding-bottom: 25px;
+}
+
+.price-btn {
+  width: 180px;
+  font-size: 1.3em;
+}
+
+.table-bordered>tbody>tr>td {
+  text-align: center;
+}
+

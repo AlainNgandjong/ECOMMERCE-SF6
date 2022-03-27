@@ -12,6 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 use JetBrains\PhpStorm\Pure;
 
 #[ORM\Entity(repositoryClass: CouponRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Coupon
 {
     use TimeStampTrait;

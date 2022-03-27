@@ -14,6 +14,7 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 #[UniqueEntity('slug')]
+#[ORM\HasLifecycleCallbacks]
 class Product
 {
     use TimeStampTrait;
@@ -50,8 +51,6 @@ class Product
     {
         $this->images = new ArrayCollection();
         $this->orderDetails = new ArrayCollection();
-        $this->createdAt = new DateTimeImmutable();
-        $this->updatedAt = new DateTimeImmutable();
 
     }
 
