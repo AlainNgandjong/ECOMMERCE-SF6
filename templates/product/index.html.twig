@@ -1,56 +1,76 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Ecommerce!{% endblock %}
-
 {% block body %}
-    <div class="hero-space">
-        <div class="container">
-            <div class="row">
-                <div class="col-xs-12">
-                    <h1 class="hero-space-headline">Artisanal Shearing for the Dapper Sheep</h1>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-6">
-                    <h2 class="hero-space-text">Before</h2>
-                    <div class="text-center">
-                        <img alt="" src="{{ asset('build/images/static/before.png') }}"/>
-                    </div>
-
-                </div>
-                <div class="col-sm-6">
-                    <h2 class="hero-space-text">After</h2>
-                    <div class="text-center">
-                        <img alt="" class="center-block" src="{{ asset('build/images/static/after.png') }}"/>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    </div>
-    <div class="container" style="margin-top: 20px;">
+    <div class="container-fluid mt-4">
         <div class="row">
-            <div class="col-md-12">
-                <div class="row">
-                    {% for product in products %}
-                        <div class="col-sm-4">
-                            <div class="shear-product">
-                                <a href="{{ path('app_product_show', {slug: product.slug}) }}">
-                                    {#                                    <img class="center-block shear-product-img" height="100" src="{{ asset('uploads/'~product.imageFilename) }}"/>#}
-                                    <div class="text-center">
-                                        <img alt="" class="center-block shear-product-img" height="100" src="#"/>
-                                    </div>
+            <aside class="col-xs-12 col-3">
+                {{ include('product/_categoriesSidebar.html.twig') }}
+            </aside>
 
-                                    <p class="text-center shear-product-title">{{ product.name }}
-                                        <span>${{ product.price }}</span></p>
-                                </a>
+            <div class="col-xs-12 col-9">
+
+                <div class="row">
+                    <div class="col-3">
+                        <h1>
+                            {% if currentCategory %}
+                                {{ currentCategory.name }}
+                            {% else %}
+                                All Products
+                            {% endif %}
+                        </h1>
+                    </div>
+                    <div class="col-9">
+                        <form>
+                            <div class="input-group">
+                                <input
+                                        name="q"
+                                        value="{{ searchTerm }}"
+                                        placeholder="Search products..."
+                                        type="search"
+                                        class="form-control"
+                                >
                             </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="row mt-4 justify-content-start align-items-center">
+                    {% for product in products %}
+                        <div class="col-xs-12 col-lg-4 col-md-6 mb-2 pb-2">
+                            <div class="component-light">
+                                <div class="product-image">
+                                    <a class="text-decoration-none" href="{{ path('app_product', { slug: product.slug }) }}">
+                                        <img
+                                                alt="{{ product.name }}"
+                                                src="{{ asset('uploads/products/indoor-plant.png') }}"
+                                                class="d-block mb-2"
+                                        >
+                                    </a>
+                                    <h3 class="font-weight-bold mb-2 px-2">
+                                        <a class="text-decoration-none" href="{{ path('app_product', { slug: product.slug }) }}">
+                                            {{ product.name }}
+                                        </a>
+                                    </h3>
+                                </div>
+                                <div
+                                        class="p-2 my-3 d-md-flex justify-content-between">
+                                    <p class="p-0 d-inline">
+                                        <strong>{{ product.priceString|format_currency('EUR') }}</strong>
+                                    </p>
+                                    <a href="{{ path('app_product', { slug: product.slug }) }}" class="btn btn-primary">View Product</a>
+                                </div>
+                            </div>
+
+                        </div>
+                    {% else %}
+                        <div class="col-12">
+                            <h5 class="ml-4 mt-4" >
+                                Whoopsie Daisy, no products found!
+                            </h5>
                         </div>
                     {% endfor %}
                 </div>
+
             </div>
         </div>
     </div>
-
 {% endblock %}

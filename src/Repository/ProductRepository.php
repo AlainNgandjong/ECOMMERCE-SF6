@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Category;
 use App\Entity\Product;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
@@ -43,6 +44,30 @@ class ProductRepository extends ServiceEntityRepository
         if ($flush) {
             $this->_em->flush();
         }
+    }
+
+    /**
+     * Search by category and/or term
+     *
+     * @return Product[]
+     */
+    public function search(?Category $category, ?string $term)
+    {
+        $qb = $this->createQueryBuilder('product');
+
+        if ($category) {
+            $qb->andWhere('product.category = :category')
+                ->setParameter('category', $category);
+        }
+
+        if ($term) {
+            $qb->andWhere('product.name LIKE :term OR product.description LIKE :term')
+                ->setParameter('term', '%'.$term.'%');
+        }
+
+        return $qb
+            ->getQuery()
+            ->execute();
     }
 
     // /**

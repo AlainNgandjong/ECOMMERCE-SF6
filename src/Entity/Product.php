@@ -184,4 +184,14 @@ class Product
         return $this->getName();
     }
 
+    public function getPriceString(): string
+    {
+        return (string) $this->price / 100;
+    }
+
+//    public function getImageUrl(): string
+//    {
+//        return sprintf('/uploads/products/'.$this->imageFilename);
+//    }
+
 }
